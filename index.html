@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Leno SafeSearch Proxy (Vercel)</title>
+  <style>
+    body { background: #111; color: #eee; text-align: center; padding: 50px; }
+    input { padding: 10px; border: none; border-radius: 6px; width: 300px; }
+    button { padding: 10px 20px; margin-left: 10px; }
+  </style>
+</head>
+<body>
+  <h1>Leno SafeSearch Vercel Proxy</h1>
+  <input id="search" placeholder="Keyword / link" onkeypress="if(event.key==='Enter') search()">
+  <button onclick="search()">Search</button>
+
+  <script>
+    const blacklist = ["porn", "hentai", "scam", "phishing", "bokep"];
+    function isSafe(q) {
+      return !blacklist.some(bad => q.toLowerCase().includes(bad));
+    }
+
+    function search() {
+      const query = document.getElementById("search").value.trim();
+      if (!isSafe(query)) return alert("❌ Terblokir demi keamanan bro!");
+
+      const target = query.startsWith("http") ? query :
+        "https://www.startpage.com/sp/search?query=" + encodeURIComponent(query);
+
+      window.location.href = "/api/proxy?url=" + encodeURIComponent(target);
+    }
+  </script>
+</body>
+</html>
