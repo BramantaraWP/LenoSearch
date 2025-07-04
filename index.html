@@ -2,32 +2,65 @@
 <html>
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta charset="utf-8">
-  <title>Leno SafeSearch Proxy (Vercel)</title>
+  <meta charset="UTF-8">
+  <title>LenoSearch</title>
   <style>
-    body { background: #111; color: #eee; text-align: center; padding: 50px; }
-    input { padding: 10px; border: none; border-radius: 6px; width: 300px; }
-    button { padding: 10px 20px; margin-left: 10px; }
+    body {
+      background: rgb(20,20,20);
+      font-family: roboto;
+      text-align: center;
+      color: white;
+      margin: 0;
+      padding: 0;
+    }
+    input {
+      background: none;
+      padding: 13px;
+      margin-top: 30px;
+      border: 1px solid #42cbf5;
+      width: 300px;
+      font-family: bold;
+      color: white;
+      border-radius: 8px;
+    }
+    button {
+      background: none;
+      width: 50px;
+      border: none;
+      padding: 0px;
+      height: 50px;
+      margin-top: 20px;
+      margin-left: -50px;
+      position: absolute;
+      color: white;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
-  <h1>Leno SafeSearch Vercel Proxy</h1>
-  <input id="search" placeholder="Keyword / link" onkeypress="if(event.key==='Enter') search()">
-  <button onclick="search()">Search</button>
+  <br><br><br><br>
+  <div class="doler">
+    <h1 style="font-size: 40px;"><strong style="color: smoke;">Leno Search</strong></h1>
+    <label style="margin-top: -30px; width: 300px; margin-left: -148px; position: absolute;">More Private And More Safety</label>
+    <div class="search">
+      <input placeholder="URL Link" id="search">
+      <button onclick="search()"><h2>⌕</h2></button>
+    </div>
+    <br><br><br>
+  </div>
 
   <script>
-    const blacklist = ["porn", "hentai", "scam", "phishing", "bokep"];
-    function isSafe(q) {
-      return !blacklist.some(bad => q.toLowerCase().includes(bad));
-    }
-
     function search() {
       const query = document.getElementById("search").value.trim();
-      if (!isSafe(query)) return alert("❌ Terblokir demi keamanan bro!");
+      if (!query) {
+        alert("Isi URL / kata kunci dulu bro!");
+        return;
+      }
+      const target = query.startsWith("http")
+        ? query
+        : "https://www.startpage.com/sp/search?query=" + encodeURIComponent(query);
 
-      const target = query.startsWith("http") ? query :
-        "https://www.startpage.com/sp/search?query=" + encodeURIComponent(query);
-
+      // Redirect ke API proxy di Vercel
       window.location.href = "/api/proxy?url=" + encodeURIComponent(target);
     }
   </script>
